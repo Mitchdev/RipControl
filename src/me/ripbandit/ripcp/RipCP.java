@@ -1,5 +1,9 @@
 package me.ripbandit.ripcp;
 
+import me.ripbandit.ripcp.events.DeathEvent;
+import me.ripbandit.ripcp.events.PlayerChat;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -14,7 +18,10 @@ public class RipCP extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
         loadConfig();
+
+        registerListeners();
     }
 
     @Override
@@ -37,5 +44,11 @@ public class RipCP extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void registerListeners() {
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new DeathEvent(), this);
+        pm.registerEvents(new PlayerChat(), this);
     }
 }
